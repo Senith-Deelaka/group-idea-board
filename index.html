@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Dashboard</title>
-    <style>
-        /* General Styles */
     <title>UCSC Student Dashboard</title>
     <style>
         :root {
@@ -16,7 +13,6 @@
             --secondary-hover: #e6c200;
             --accent: var(--secondary);
             --ucsc-maroon: var(--primary);
-            --ucsc-gold-glow: rgba(255, 215, 0, 0.4);
             
             --success: #10b981;
             --success-hover: #059669;
@@ -25,7 +21,6 @@
             --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
             --card-bg: #ffffff;
             --navbar-bg: var(--ucsc-maroon);
-            --sidebar-bg: #ffffff;
             --text-main: #0f172a;
             --text-on-dark: #ffffff;
             --text-muted: #64748b;
@@ -33,7 +28,6 @@
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --radius: 16px;
             --navbar-height: 72px;
-            --sidebar-width: 260px;
             --transition-speed: 0.3s;
         }
 
@@ -41,35 +35,10 @@
             --bg-gradient: radial-gradient(circle at top left, #121212, #1a0508);
             --card-bg: #1e1e1e;
             --navbar-bg: #000000;
-            --sidebar-bg: #1f1f1f;
             --text-main: #e0e0e0;
             --text-muted: #94a3b8;
             --border: #334155;
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Fade-In Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .animate-fade-in {
-                animation: none;
-                opacity: 1;
-            }
         }
 
         * {
@@ -79,29 +48,14 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* Navigation Bar */
-        .navbar {
-            background: linear-gradient(90deg, #6B1C23 0%, #8B0000 100%);
-            padding: 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-        }
-
-        body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 0;
             background: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Navbar Styles */
@@ -132,17 +86,12 @@
             height: 45px;
             width: auto;
             border-radius: 6px;
-            transition: transform 0.3s ease;
-        }
-
-        .ucsc-logo:hover {
-            transform: scale(1.05);
         }
 
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .nav-tabs {
@@ -173,126 +122,48 @@
             color: var(--primary);
         }
 
-        /* Theme Toggle Switch */
         .theme-switch {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             border: none;
             width: 40px;
             height: 40px;
-            font-size: 1.2rem;
+            border-radius: 50%;
             color: white;
-        }
-
-        .theme-switch:hover {
-            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
 
         header {
-            width: 100%;
             background: var(--ucsc-maroon);
             color: white;
             padding: 2rem 1rem;
             text-align: center;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-
-        .navbar-brand {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            padding-left: 30px;
-            flex: 0 0 auto;
-            gap: 0.5rem;
             border-bottom: 4px solid var(--accent);
         }
 
-        .navbar-menu {
-            display: flex;
-            list-style: none;
-            gap: 0;
-            margin: 0;
-            padding-right: 30px;
+        header h1 {
             font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            color: var(--secondary);
+            margin-bottom: 0.5rem;
         }
 
-        .navbar-menu li {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
-            max-width: 600px;
-        }
-
-        .nav-link {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 25px 25px;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-        }
-
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-bottom-color: #FFD700;
-        }
-
-        .nav-link.active {
-            background-color: #D4AF37;
-            color: #6B1C23;
-            border-bottom-color: #B8860B;
-        }
-
-        /* Main Container */
         .container {
-            display: flex;
-            height: calc(100vh - 70px);
-            background: #f5f5f5;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            padding: 30px 20px;
+            max-width: 900px;
             width: 95%;
-            max-width: 800px;
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin: 0 auto 4rem auto;
-            position: relative;
-            border: 1px solid var(--border);
+            margin: 2rem auto;
+            flex: 1;
         }
 
         .tab-content {
             display: none;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
             animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .tab-content.active {
@@ -301,452 +172,132 @@
             gap: 1.5rem;
         }
 
-        .counter-badge {
-            position: absolute;
-            top: -12px;
-            right: 2rem;
-            background: var(--primary);
-            color: var(--secondary);
-            padding: 0.25rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            box-shadow: 0 4px 6px rgba(128, 0, 0, 0.3);
-            z-index: 10;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .sidebar-section h3 {
-            color: #6B1C23;
-            font-size: 18px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #D4AF37;
-            padding-bottom: 10px;
-        }
-
-        .events-list {
-            list-style: none;
-        }
-
-        .event-item {
+        /* Form Elements */
+        .input-group {
             display: flex;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border-left: 4px solid #D4AF37;
-            transition: all 0.3s ease;
-        }
-
-        .event-item:hover {
-            background: #f0e6d2;
-            transform: translateX(5px);
-        }
-
-        .event-date {
-            background: #D4AF37;
-            color: #6B1C23;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 12px;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .event-title {
-            color: #6B1C23;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Main Content */
-        .main-content {
+            flex-direction: column;
             gap: 0.5rem;
         }
 
-        .input-field {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .content-section {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease;
-        }
-
-        .content-section h2 {
-            color: #6B1C23;
-            font-size: 32px;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #D4AF37;
-            padding-bottom: 15px;
-        }
-
-        .content-section.hidden {
-            display: none;
         label {
             font-weight: 700;
             font-size: 0.75rem;
             color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
         }
 
-        body.dark-mode label {
-            color: var(--secondary);
-        }
+        body.dark-mode label { color: var(--secondary); }
 
-        select, input[type="text"], input[type="number"] {
+        input, select {
             padding: 0.875rem 1.25rem;
             border: 2px solid var(--border);
             border-radius: 10px;
             font-size: 1rem;
-            outline: none;
-            background-color: var(--card-bg);
+            background: var(--card-bg);
             color: var(--text-main);
             width: 100%;
+            outline: none;
         }
 
-        select:focus, input[type="text"]:focus, input[type="number"]:focus {
+        input:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
         }
 
-        body.dark-mode select:focus, body.dark-mode input[type="text"]:focus, body.dark-mode input[type="number"]:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Timer Styles */
-        .timer-container {
+        .inline-group {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
+            gap: 0.5rem;
         }
 
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .timer-circle {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            font-weight: bold;
-            gap: 0.6rem;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            font-family: 'Courier New', monospace;
-            letter-spacing: 5px;
-        }
-
-        /* Timer Controls */
-        .timer-controls {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
+        /* Buttons */
         .btn {
-            padding: 15px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-            color: #6B1C23;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            padding: 0.875rem 1.5rem;
+            border-radius: 10px;
             font-weight: 700;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--secondary-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: var(--success-hover);
-            transform: scale(1.02);
-        }
-
-        .btn-danger {
-            background-color: #fee2e2;
-            color: var(--danger);
-        }
-
-        .btn-primary.paused {
-            background: linear-gradient(135deg, #A82630 0%, #8B0000 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #A82630;
-            color: white;
-            box-shadow: 0 4px 15px rgba(168, 38, 48, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: #8B0000;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(168, 38, 48, 0.4);
-        }
-
-        .btn-secondary:active {
-            transform: translateY(0);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Timer Info */
-        .timer-info {
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
             text-align: center;
-            color: #666;
-            font-size: 16px;
         }
 
-        .timer-info p {
-            margin: 10px 0;
-        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        .timer-info strong {
-            color: #D4AF37;
-            font-weight: 600;
-        }
+        .btn-secondary { background: var(--secondary); color: var(--primary); }
+        .btn-secondary:hover { background: var(--secondary-hover); transform: translateY(-2px); }
 
-        /* GPA Calculator Placeholder */
-        .gpa-container {
-            padding: 40px;
-            text-align: center;
-            color: #666;
-        }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-clear { background: var(--border); color: var(--text-muted); }
 
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        .btn-clear {
-            background-color: #f1f5f9;
-            color: var(--text-muted);
-        }
-
-        .btn-clear:hover {
-            background-color: #e2e8f0;
-        }
-
-        /* GPA Calculator Styles */
-        .gpa-form {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr auto;
-            gap: 1rem;
-            align-items: flex-end;
-        }
-
-        .gpa-result-card {
-            background: var(--primary);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .gpa-value {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--secondary);
-            display: block;
-        }
-
-        #idea-list, #course-list {
-            margin-top: 1rem;
-            padding: 0;
+        /* Lists */
+        .list-container {
             list-style: none;
-            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            margin-top: 1rem;
         }
 
         .list-item {
             background: var(--card-bg);
-            padding: 1.25rem;
+            padding: 1rem;
             border-radius: 12px;
             border: 1px solid var(--border);
             border-left: 4px solid var(--accent);
             display: flex;
             align-items: center;
             gap: 1rem;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .item-icon {
+            width: 40px; height: 40px;
             background: rgba(128, 0, 0, 0.05);
-            color: var(--primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; font-size: 1.2rem;
         }
 
-        .item-content {
-            flex: 1;
-            font-weight: 500;
+        .item-content { flex: 1; }
+        .item-subtitle { display: block; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Timer Specific */
+        .timer-container {
+            display: flex; flex-direction: column; align-items: center; gap: 2rem;
         }
 
-        .item-subtitle {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 0.2rem;
-            font-weight: 400;
+        .timer-circle {
+            width: 250px; height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; font-weight: 800; color: white;
+            box-shadow: var(--shadow);
         }
+
+        /* GPA Result */
+        .gpa-result-card {
+            background: var(--primary); color: white;
+            padding: 2rem; border-radius: 12px; text-align: center;
+            margin-top: 1rem;
+        }
+
+        .gpa-value { font-size: 3rem; font-weight: 800; color: var(--secondary); }
 
         footer {
-            margin-top: auto;
-            padding: 3rem;
-            text-align: center;
-            color: white;
-            font-size: 0.9rem;
-            width: 100%;
-            background: var(--ucsc-maroon);
+            background: var(--ucsc-maroon); color: white;
+            padding: 2rem; text-align: center;
             border-top: 4px solid var(--accent);
+            margin-top: auto;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #D4AF37;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #B8860B;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                height: auto;
-            }
-
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                max-height: 300px;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .content-section {
-                padding: 20px;
-            }
-
-            .content-section h2 {
-                font-size: 24px;
-            }
-
-            .timer-circle {
-                width: 200px;
-                height: 200px;
-                font-size: 60px;
-            }
-
-            .timer-controls {
-                flex-wrap: wrap;
-            }
-
-            .btn {
-                padding: 12px 30px;
-                font-size: 14px;
-        @media (max-width: 768px) {
-            .gpa-form {
-                grid-template-columns: 1fr 1fr;
-            }
-            .gpa-form .btn-primary {
-                grid-column: span 2;
-            }
-            .button-row { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 1.5rem; }
-            header h1 { font-size: 2rem; }
             .nav-tabs { display: none; }
+            .inline-group { flex-direction: column; }
         }
     </style>
 </head>
@@ -754,17 +305,16 @@
 
     <nav>
         <div class="nav-logo">
-            <img src="images.png" alt="UCSC Logo" class="ucsc-logo">
+            <img src="images.png" alt="UCSC Logo" class="ucsc-logo" onerror="this.style.display='none'">
             <span>UCSC Dashboard</span>
         </div>
         <div class="nav-actions">
             <div class="nav-tabs">
                 <button class="tab-btn active" onclick="switchTab('idea-board')">Idea Board</button>
                 <button class="tab-btn" onclick="switchTab('gpa-calc')">GPA Calculator</button>
+                <button class="tab-btn" onclick="switchTab('timer')">Study Timer</button>
             </div>
-            <button id="theme-toggle" class="theme-switch" title="Toggle Theme">
-                <span id="theme-icon">☀️</span>
-            </button>
+            <button id="theme-toggle" class="theme-switch">☀️</button>
         </div>
     </nav>
 
@@ -774,68 +324,48 @@
     </header>
 
     <main class="container">
-        
         <!-- Tab 1: Idea Board -->
         <section id="idea-board" class="tab-content active">
-            <div id="idea-counter" class="counter-badge">0 Ideas</div>
-
             <div class="input-group">
-                <label for="new-name-input">Register Member</label>
+                <label>Register Member</label>
                 <div class="inline-group">
-                    <div class="input-field">
-                        <input type="text" id="new-name-input" placeholder="Type name to add...">
-                    </div>
-                    <button id="add-name-btn" class="btn-success">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
-
-            <div class="input-group">
-                <label for="name-select">Select Member</label>
-                <div class="inline-group">
-                    <div class="input-field">
-                        <select id="name-select">
-                            <option value="" disabled selected>Select your name...</option>
-                            <option value="Suthakaran Sabhisha">Sabisa</option>
-                            <option value="Sasandi Jayawardena">Sasandi</option>
-                            <option value="Ketheeswaran Janani">Janani</option>
-                            <option value="Nadina Amarasinghe">Nadina</option>
-                        </select>
-                    </div>
-                    <button id="remove-name-btn" class="btn-danger" title="Remove selected member">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                    </button>
+                    <input type="text" id="new-name-input" placeholder="Member name...">
+                    <button id="add-name-btn" class="btn btn-success">Add Member</button>
                 </div>
             </div>
 
             <div class="input-group">
-                <label for="idea-input">The Big Idea</label>
-                <input type="text" id="idea-input" placeholder="What are you thinking?">
+                <label>Select Member & Idea</label>
+                <select id="name-select">
+                    <option value="" disabled selected>Select member...</option>
+                    <option value="Suthakaran Sabhisha">Sabisa</option>
+                    <option value="Sasandi Jayawardena">Sasandi</option>
+                    <option value="Ketheeswaran Janani">Janani</option>
+                    <option value="Nadina Amarasinghe">Nadina</option>
+                </select>
+                <input type="text" id="idea-input" placeholder="What's your big idea?">
             </div>
 
-            <div class="button-row">
-                <button id="add-idea-btn" class="btn-primary">Add Idea to Board</button>
-                <button id="reset-btn" class="btn-clear">Clear</button>
+            <div class="inline-group">
+                <button id="add-idea-btn" class="btn btn-primary" style="flex: 2;">Post Idea</button>
+                <button id="clear-idea-btn" class="btn btn-clear" style="flex: 1;">Clear</button>
             </div>
 
-            <ul id="idea-list">
-                <div class="empty-state" style="text-align: center; color: var(--text-muted); padding: 2rem;">No ideas yet.</div>
+            <ul id="idea-list" class="list-container">
+                <div class="empty-state" style="text-align: center; color: var(--text-muted); padding: 2rem;">No ideas posted yet.</div>
             </ul>
         </section>
 
         <!-- Tab 2: GPA Calculator -->
         <section id="gpa-calc" class="tab-content">
-            <div class="gpa-form">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 0.5rem; align-items: flex-end;">
                 <div class="input-group">
-                    <label>Course Name</label>
-                    <input type="text" id="course-name" placeholder="Optional">
+                    <label>Course</label>
+                    <input type="text" id="course-name" placeholder="e.g. CS101">
                 </div>
                 <div class="input-group">
                     <label>Credits</label>
-                    <input type="number" id="course-credits" placeholder="e.g. 3" min="1">
+                    <input type="number" id="course-credits" min="1" placeholder="3">
                 </div>
                 <div class="input-group">
                     <label>Grade</label>
@@ -853,28 +383,35 @@
                         <option value="0.0">E</option>
                     </select>
                 </div>
-                <button id="add-course-btn" class="btn-primary">Add</button>
+                <button id="add-course-btn" class="btn btn-primary">Add</button>
             </div>
 
-            <div id="course-list-container">
-                <ul id="course-list">
-                    <!-- Courses will appear here -->
-                </ul>
-            </div>
+            <ul id="course-list" class="list-container"></ul>
 
-            <div class="button-row" style="grid-template-columns: 1fr;">
-                <button id="calculate-gpa-btn" class="btn-secondary" style="font-size: 1.2rem; padding: 1.25rem;">
-                    Calculate Final GPA
-                </button>
-            </div>
+            <button id="calculate-gpa-btn" class="btn btn-secondary" style="width: 100%; font-size: 1.2rem;">Calculate Final GPA</button>
 
             <div id="gpa-result-display" class="gpa-result-card" style="display: none;">
-                <h3>Your Current GPA</h3>
+                <h3>Cumulative GPA</h3>
                 <span class="gpa-value" id="final-gpa">0.00</span>
-                <p id="gpa-message">Keep up the great work!</p>
             </div>
         </section>
 
+        <!-- Tab 3: Study Timer -->
+        <section id="timer" class="tab-content">
+            <div class="timer-container">
+                <div class="timer-circle">
+                    <span id="timer-display">25:00</span>
+                </div>
+                <div class="inline-group">
+                    <button id="timer-start" class="btn btn-primary">Start Focus</button>
+                    <button id="timer-reset" class="btn btn-secondary">Reset</button>
+                </div>
+                <div style="text-align: center; color: var(--text-muted);">
+                    <p>Focus: 25m | Break: 5m</p>
+                    <p id="session-count">Sessions completed: 0</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -882,522 +419,171 @@
     </footer>
 
     <script>
-        // Tab Switching Logic
+        // --- Navigation ---
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.onclick.toString().includes(tabId));
+            if(activeBtn) activeBtn.classList.add('active');
 
             const title = document.getElementById('header-title');
             const desc = document.getElementById('header-desc');
-
             if (tabId === 'idea-board') {
                 title.textContent = 'Group Idea Board';
                 desc.textContent = 'Collaborate and build the future together';
-            } else {
+            } else if (tabId === 'gpa-calc') {
                 title.textContent = 'GPA Calculator';
-                desc.textContent = 'Track your academic progress with precision';
+                desc.textContent = 'Track your academic progress';
+            } else {
+                title.textContent = 'Study Timer';
+                desc.textContent = 'Boost productivity with Pomodoro';
             }
         }
+
+        // --- Theme ---
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+        });
 
         // --- Idea Board Logic ---
-        const nameSelect = document.getElementById('name-select');
-        const newNameInput = document.getElementById('new-name-input');
-        const addNameBtn = document.getElementById('add-name-btn');
-        const removeNameBtn = document.getElementById('remove-name-btn');
-        const ideaInput = document.getElementById('idea-input');
-        const addIdeaBtn = document.getElementById('add-idea-btn');
-        const resetBtn = document.getElementById('reset-btn');
         const ideaList = document.getElementById('idea-list');
-        const counterBadge = document.getElementById('idea-counter');
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-
-        let totalIdeas = 0;
-
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                themeIcon.textContent = '🌙';
-            } else {
-                document.body.classList.remove('dark-mode');
-                themeIcon.textContent = '☀️';
-            }
-            localStorage.setItem('theme', theme);
-        }
-
-        const savedTheme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const nameSelect = document.getElementById('name-select');
         
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else if (systemPrefersDark) {
-            setTheme('dark');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = document.body.classList.contains('dark-mode');
-            setTheme(isDark ? 'light' : 'dark');
+        document.getElementById('add-name-btn').addEventListener('click', () => {
+            const input = document.getElementById('new-name-input');
+            const name = input.value.trim();
+            if (name) {
+                const opt = document.createElement('option');
+                opt.value = name; opt.textContent = name;
+                nameSelect.appendChild(opt);
+                nameSelect.value = name;
+                input.value = '';
+            }
         });
 
-        function updateCounter() {
-            counterBadge.textContent = `${totalIdeas} ${totalIdeas === 1 ? 'Idea' : 'Ideas'}`;
-        }
-
-        addNameBtn.addEventListener('click', () => {
-            const newName = newNameInput.value.trim();
-            if (!newName) return;
-            const option = document.createElement('option');
-            option.value = newName;
-            option.textContent = newName;
-            nameSelect.appendChild(option);
-            nameSelect.value = newName;
-            newNameInput.value = '';
-        });
-
-        removeNameBtn.addEventListener('click', () => {
-            if (nameSelect.value) {
-                nameSelect.remove(nameSelect.selectedIndex);
-                nameSelect.value = "";
-            }
-
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 0;
-            }
-
-            .navbar-brand {
-                padding: 15px;
-                font-size: 24px;
-            }
-
-            .navbar-menu {
-                width: 100%;
-                flex-direction: column;
-                padding: 0;
-                gap: 0;
-            }
-
-            .nav-link {
-                padding: 15px;
-                text-align: center;
-                border-bottom: 1px solid #6B1C23;
-            }
-        }
-        addIdeaBtn.addEventListener('click', () => {
+        document.getElementById('add-idea-btn').addEventListener('click', () => {
             const name = nameSelect.value;
-            const idea = ideaInput.value.trim();
-            if (!name || !idea) return;
+            const ideaText = document.getElementById('idea-input').value.trim();
+            if (!name || !ideaText) return;
 
             if (ideaList.querySelector('.empty-state')) ideaList.innerHTML = '';
 
-        @keyframes popIn {
-            from {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes popOut {
-            from {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            to {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar-brand">📚 Study Dashboard</div>
-        <ul class="navbar-menu">
-            <li><a href="#gpa-calculator" class="nav-link">GPA Calculator</a></li>
-            <li><a href="#study-timer" class="nav-link active">Study Timer</a></li>
-        </ul>
-    </nav>
-
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-section">
-                <h3>📅 Upcoming Events</h3>
-                <ul class="events-list">
-                    <li class="event-item">
-                        <span class="event-date">Mar 15</span>
-                        <span class="event-title">Midterm Exam</span>
-                    </li>
-                    <li class="event-item">
-                        <span class="event-date">Mar 20</span>
-                        <span class="event-title">Project Deadline</span>
-                    </li>
-                    <li class="event-item">
-                        <span class="event-date">Mar 25</span>
-                        <span class="event-title">Group Presentation</span>
-                    </li>
-                    <li class="event-item">
-                        <span class="event-date">Apr 01</span>
-                        <span class="event-title">Final Project Due</span>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Study Timer Section -->
-            <section id="study-timer" class="content-section">
-                <h2>🍅 Pomodoro Timer</h2>
-                <div class="timer-container">
-                    <div class="timer-display">
-                        <div class="timer-circle">
-                            <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
-                        </div>
-                    </div>
-                    <div class="timer-controls">
-                        <button id="start-btn" class="btn btn-primary">Start</button>
-                        <button id="reset-btn" class="btn btn-secondary">Reset</button>
-                    </div>
-                    <div class="timer-info">
-                        <p>Focus for 25 minutes, then take a 5-minute break!</p>
-                        <p id="session-counter">Sessions Completed: <strong>0</strong></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- GPA Calculator Section -->
-            <section id="gpa-calculator" class="content-section hidden">
-                <h2>📊 GPA Calculator</h2>
-                <div class="gpa-container">
-                    <p>GPA Calculator coming soon...</p>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script>
-        // DOM Elements
-        const timerMinutes = document.getElementById('timer-minutes');
-        const timerSeconds = document.getElementById('timer-seconds');
-        const startBtn = document.getElementById('start-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const sessionCounter = document.getElementById('session-counter');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const contentSections = document.querySelectorAll('.content-section');
-
-        // Timer Variables
-        let timeRemaining = 25 * 60; // 25 minutes in seconds
-        const initialTime = 25 * 60;
-        let isRunning = false;
-        let timerInterval = null;
-        let sessionsCompleted = 0;
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeEventListeners();
-            updateTimerDisplay();
-        });
-
-        // Event Listeners
-        function initializeEventListeners() {
-            startBtn.addEventListener('click', toggleTimer);
-            resetBtn.addEventListener('click', resetTimer);
-            
-            // Navigation
-            navLinks.forEach(link => {
-                link.addEventListener('click', handleNavigation);
-            });
-        }
-
-        // Start/Pause Button
-        function toggleTimer() {
-            if (isRunning) {
-                pauseTimer();
-            } else {
-                startTimer();
-            }
-        }
-
-        function startTimer() {
-            if (timeRemaining <= 0) {
-                resetTimer();
-                return;
-            }
-
-            isRunning = true;
-            startBtn.textContent = 'Pause';
-            startBtn.classList.add('paused');
-            
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                updateTimerDisplay();
-
-                if (timeRemaining <= 0) {
-                    completeSession();
-                }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            isRunning = false;
-            clearInterval(timerInterval);
-            startBtn.textContent = 'Start';
-            startBtn.classList.remove('paused');
-        }
-
-        // Reset Button
-        function resetTimer() {
-            pauseTimer();
-            timeRemaining = initialTime;
-            updateTimerDisplay();
-            startBtn.textContent = 'Start';
-            startBtn.classList.remove('paused');
-        }
-
-        // Complete Session
-        function completeSession() {
-            pauseTimer();
-            sessionsCompleted++;
-            updateSessionCounter();
-            playNotification();
-            showCompletionAlert();
-            timeRemaining = initialTime;
-            updateTimerDisplay();
-        }
-
-        // Update Timer Display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            
-            timerMinutes.textContent = String(minutes).padStart(2, '0');
-            timerSeconds.textContent = String(seconds).padStart(2, '0');
-            
-            // Update document title
-            document.title = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} - Pomodoro Timer`;
-        }
-
-        // Update Session Counter
-        function updateSessionCounter() {
-            sessionCounter.innerHTML = `Sessions Completed: <strong>${sessionsCompleted}</strong>`;
-        }
-
-        // Play Bell Sound Notification
-        function playNotification() {
-            // Create an audio context and play a bell sound
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const now = audioContext.currentTime;
-            
-            // Create multiple oscillators for a bell-like sound
-            const notes = [
-                { freq: 1046.5, duration: 0.3, delay: 0 },      // C6
-                { freq: 1318.5, duration: 0.3, delay: 0.1 },    // E6
-                { freq: 1568.0, duration: 0.5, delay: 0.2 }     // G6
-            ];
-            
-            notes.forEach(note => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = note.freq;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, now + note.delay);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, now + note.delay + note.duration);
-                
-                oscillator.start(now + note.delay);
-                oscillator.stop(now + note.delay + note.duration);
-            });
-        }
-
-        // Show Completion Alert
-        function showCompletionAlert() {
-            // Create and show alert
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
-                color: white;
-                padding: 40px;
-                border-radius: 12px;
-                text-align: center;
-                font-size: 24px;
-                font-weight: bold;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                animation: popIn 0.3s ease;
-            `;
-            
-            alertDiv.innerHTML = `
-                <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
-                <div>Session Complete!</div>
-                <div style="font-size: 16px; margin-top: 15px; opacity: 0.9;">Take a 5-minute break</div>
-            `;
-            
-            document.body.appendChild(alertDiv);
-            
-            // Remove after 4 seconds
-            setTimeout(() => {
-                alertDiv.style.animation = 'popOut 0.3s ease';
-                setTimeout(() => alertDiv.remove(), 300);
-            }, 4000);
-        }
-
-        // Navigation Handler
-        function handleNavigation(e) {
-            e.preventDefault();
-            
-            // Get the target section
-            const targetId = e.target.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (!targetSection) return;
-
-            // Update active nav link
-            navLinks.forEach(link => link.classList.remove('active'));
-            e.target.classList.add('active');
-
-            // Show/hide sections
-            contentSections.forEach(section => {
-                section.classList.add('hidden');
-            });
-            targetSection.classList.remove('hidden');
-        }
-
-        // Browser Notification (if user allows)
-        function requestNotificationPermission() {
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
-        }
-
-        function sendBrowserNotification() {
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('Pomodoro Timer Complete!', {
-                    body: 'Great work! Take a 5-minute break.',
-                    icon: '🍅'
-                });
-            }
-        }
-
-        // Request notification permission on load
-        requestNotificationPermission();
-
-        // Show browser notification when session completes
-        const originalCompleteSession = completeSession;
-        completeSession = function() {
-            originalCompleteSession.call(this);
-            sendBrowserNotification();
-        };
-
-        // Volume indicator for bell sound testing
-        console.log('🍅 Pomodoro Timer Ready! Bell notification is enabled.');
             const li = document.createElement('li');
             li.className = 'list-item';
             li.innerHTML = `
                 <div class="item-icon">💡</div>
                 <div class="item-content">
-                    ${idea}
-                    <span class="item-subtitle">suggested by <strong>${name}</strong></span>
+                    <strong>${ideaText}</strong>
+                    <span class="item-subtitle">Suggested by ${name}</span>
                 </div>
             `;
             ideaList.prepend(li);
-            ideaInput.value = '';
+            document.getElementById('idea-input').value = '';
         });
 
-        resetBtn.addEventListener('click', () => {
-            ideaInput.value = '';
-            ideaInput.focus();
+        document.getElementById('clear-idea-btn').addEventListener('click', () => {
+            document.getElementById('idea-input').value = '';
         });
 
-        // --- GPA Calculator Logic ---
-        const courseNameInput = document.getElementById('course-name');
-        const courseCreditsInput = document.getElementById('course-credits');
-        const courseGradeSelect = document.getElementById('course-grade');
-        const addCourseBtn = document.getElementById('add-course-btn');
-        const courseList = document.getElementById('course-list');
-        const calculateGpaBtn = document.getElementById('calculate-gpa-btn');
-        const gpaResultDisplay = document.getElementById('gpa-result-display');
-        const finalGpaText = document.getElementById('final-gpa');
-
+        // --- GPA Logic ---
         let courses = [];
+        document.getElementById('add-course-btn').addEventListener('click', () => {
+            const name = document.getElementById('course-name').value || 'Course';
+            const credits = parseFloat(document.getElementById('course-credits').value);
+            const grade = parseFloat(document.getElementById('course-grade').value);
+            const gradeText = document.getElementById('course-grade').options[document.getElementById('course-grade').selectedIndex].text;
 
-        addCourseBtn.addEventListener('click', () => {
-            const name = courseNameInput.value.trim() || 'Unnamed Course';
-            const credits = parseFloat(courseCreditsInput.value);
-            const gradePoint = parseFloat(courseGradeSelect.value);
-            const gradeText = courseGradeSelect.options[courseGradeSelect.selectedIndex].text;
+            if (!credits) return;
 
-            if (isNaN(credits) || credits <= 0) {
-                alert('Please enter valid credits.');
-                return;
-            }
-
-            const course = { id: Date.now(), name, credits, gradePoint, gradeText };
-            courses.push(course);
+            courses.push({ name, credits, grade, gradeText });
             renderCourses();
-            
-            courseNameInput.value = '';
-            courseCreditsInput.value = '';
+            document.getElementById('course-name').value = '';
+            document.getElementById('course-credits').value = '';
         });
 
         function renderCourses() {
-            courseList.innerHTML = '';
-            courses.forEach(course => {
+            const list = document.getElementById('course-list');
+            list.innerHTML = '';
+            courses.forEach((c, i) => {
                 const li = document.createElement('li');
                 li.className = 'list-item';
                 li.innerHTML = `
                     <div class="item-icon">📚</div>
                     <div class="item-content">
-                        <strong>${course.name}</strong>
-                        <span class="item-subtitle">${course.credits} Credits • Grade: ${course.gradeText}</span>
+                        <strong>${c.name}</strong>
+                        <span class="item-subtitle">${c.credits} Credits • Grade: ${c.gradeText}</span>
                     </div>
-                    <button class="btn-danger" onclick="removeCourse(${course.id})" style="padding: 0.5rem;">×</button>
+                    <button class="btn btn-danger" onclick="removeCourse(${i})" style="padding: 0.5rem;">×</button>
                 `;
-                courseList.appendChild(li);
+                list.appendChild(li);
             });
         }
 
-        window.removeCourse = (id) => {
-            courses = courses.filter(c => c.id !== id);
+        window.removeCourse = (i) => {
+            courses.splice(i, 1);
             renderCourses();
-            gpaResultDisplay.style.display = 'none';
         };
 
-        calculateGpaBtn.addEventListener('click', () => {
-            if (courses.length === 0) {
-                alert('Add some courses first!');
-                return;
-            }
-
-            let totalQualityPoints = 0;
-            let totalCredits = 0;
-
+        document.getElementById('calculate-gpa-btn').addEventListener('click', () => {
+            if (!courses.length) return;
+            let totalPoints = 0, totalCredits = 0;
             courses.forEach(c => {
-                totalQualityPoints += (c.gradePoint * c.credits);
+                totalPoints += (c.grade * c.credits);
                 totalCredits += c.credits;
             });
+            const gpa = totalPoints / totalCredits;
+            document.getElementById('final-gpa').textContent = gpa.toFixed(2);
+            document.getElementById('gpa-result-display').style.display = 'block';
+        });
 
-            const gpa = totalQualityPoints / totalCredits;
-            finalGpaText.textContent = gpa.toFixed(2);
-            gpaResultDisplay.style.display = 'block';
-            gpaResultDisplay.scrollIntoView({ behavior: 'smooth' });
+        // --- Timer Logic ---
+        let timerSeconds = 25 * 60;
+        let timerInterval = null;
+        let sessions = 0;
+
+        const display = document.getElementById('timer-display');
+        const startBtn = document.getElementById('timer-start');
+
+        function updateTimer() {
+            const m = Math.floor(timerSeconds / 60);
+            const s = timerSeconds % 60;
+            display.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                startBtn.textContent = 'Resume';
+            } else {
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    timerSeconds--;
+                    updateTimer();
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        sessions++;
+                        document.getElementById('session-count').textContent = `Sessions completed: ${sessions}`;
+                        alert('Focus session complete! Take a break.');
+                        timerSeconds = 25 * 60;
+                        updateTimer();
+                        startBtn.textContent = 'Start Focus';
+                    }
+                }, 1000);
+            }
+        });
+
+        document.getElementById('timer-reset').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerSeconds = 25 * 60;
+            updateTimer();
+            startBtn.textContent = 'Start Focus';
         });
     </script>
 </body>
