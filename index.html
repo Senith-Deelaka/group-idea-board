@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Pomodoro Study Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="#gpa">GPA Calculator</a></li>
+            <li><a href="#timer">Study Timer</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Upcoming Events</h2>
+            <ul class="event-list">
+                <li>Math Exam - March 15</li>
+                <li>History Project Due - March 18</li>
+                <li>Group Study Session - March 20</li>
+            </ul>
+        </aside>
+
+        <main class="dashboard">
+            <section id="timer" class="pomodoro-section">
+                <h1>Pomodoro Study Timer</h1>
+                <div class="timer-display">
+                    <span id="minutes">25</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <button id="start-btn">Start</button>
+                    <button id="reset-btn">Reset</button>
+                </div>
+            </section>
+
+            <section id="gpa" class="gpa-section">
+                <h1>GPA Calculator</h1>
+                <p>Coming Soon...</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
