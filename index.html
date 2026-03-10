@@ -3,549 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Idea Board</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --secondary: #64748b;
-            --secondary-hover: #475569;
-            --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --radius: 16px;
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        header {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            padding: 2.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            margin-bottom: 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .header-icon {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.75rem;
-            border-radius: 50%;
-            margin-bottom: 0.5rem;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.05em;
-        }
-
-        header p {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 600px;
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .counter-badge {
-            position: absolute;
-            top: -12px;
-            right: 2rem;
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .inline-group {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-end;
-        }
-
-        .inline-group > .input-field {
-            flex: 1;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        select, input[type="text"] {
-            padding: 0.875rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            background-color: #fcfdfe;
-            width: 100%;
-        }
-
-        select:focus, input[type="text"]:focus {
-            border-color: var(--primary);
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .button-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        button {
-            border: none;
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .btn-add {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-add:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-            padding: 0.875rem 1.5rem;
-        }
-
-        .btn-success:hover {
-            background-color: var(--success-hover);
-        }
-
-        .btn-danger {
-            background-color: #fee2e2;
-            color: var(--danger);
-            padding: 0.875rem 1.25rem;
-        }
-
-        .btn-danger:hover {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .btn-clear {
-            background-color: #f1f5f9;
-            color: var(--secondary);
-        }
-
-        .btn-clear:hover {
-            background-color: #e2e8f0;
-            color: var(--secondary-hover);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        #idea-list {
-            margin-top: 1rem;
-            padding: 0;
-            list-style: none;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 3rem 1rem;
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            font-style: italic;
-        }
-
-        #idea-list li {
-            background: #ffffff;
-            padding: 1.25rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .idea-icon {
-            background: #eff6ff;
-            color: var(--primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .idea-content {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .suggested-by {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 0.2rem;
-            font-weight: 400;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            width: 100%;
-            border-top: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.9) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 1.5rem; }
-            header h1 { font-size: 2rem; }
-            .button-row { grid-template-columns: 1fr; }
-            .inline-group { flex-direction: column; align-items: stretch; }
-        }
-    </style>
+    <title>Study Dashboard - Pomodoro Timer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <header>
-        <div class="header-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.7 1.5-1.7 1.5-3 0-2.2-1.8-4-4-4s-4 1.8-4 4c0 1.3.5 2.3 1.5 3 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
-        </div>
-        <h1>Group Idea Board</h1>
-        <p>Collaborate and build the future together</p>
-    </header>
-
-    <main class="container">
-        <div id="idea-counter" class="counter-badge">0 Ideas</div>
-
-        <!-- Add New Name Section -->
-        <div class="input-group">
-            <label for="new-name-input">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="16" x2="22" y1="11" y2="11"/></svg>
-                Register  Member
-            </label>
-            <div class="inline-group">
-                <div class="input-field">
-                    <input type="text" id="new-name-input" placeholder="Type name to add...">
-                </div>
-                <button id="add-name-btn" class="btn-success">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                </button>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h2>📚 Study Assistant</h2>
             </div>
+            <ul class="navbar-menu">
+                <li><a href="#study-timer" class="nav-link active">Study Timer</a></li>
+                <li><a href="#gpa-calculator" class="nav-link">GPA Calculator</a></li>
+                <li><a href="#idea-board" class="nav-link">Group Idea Board</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
-
-        <!-- Select/Remove Member Section -->
-        <div class="input-group">
-            <label for="name-select">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Select or Remove Member
-            </label>
-            <div class="inline-group">
-                <div class="input-field">
-                    <select id="name-select">
-                        <option value="" disabled selected>Select your name...</option>
-                        <option value="Suthakaran Sabhisha">Sabisa</option>
-                        <option value="Sasandi Jayawardena">Sasandi</option>
-                        <option value="Ketheeswaran Janani">Janani</option>
-                        <option value="Nadina Amarasinghe">Nadina</option>
-                        <option value="Chamindu Garusingha">Chamindu</option>
-                        <option value="Pramuditha Maduwantha">Pramuditha</option>
-                        <option value="Savinda Rajapathirana">Savinda</option>
-                        <option value="Senith Deelaka">Senith</option>
-                        <option value="Chamalkith Dewmina">Chamalkith</option>
-                        <option value="Dulan Senanayake">Dulan</option>
-                    </select>
-                </div>
-                <button id="remove-name-btn" class="btn-danger" title="Remove selected member">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="14" y1="11" y2="15"/><line x1="14" x2="10" y1="11" y2="15"/></svg>
-                </button>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>📅 Upcoming Events</h3>
+                <ul class="events-list">
+                    <li>
+                        <strong>Math Quiz</strong>
+                        <p>Tomorrow at 2:00 PM</p>
+                    </li>
+                    <li>
+                        <strong>Project Submission</strong>
+                        <p>Friday by 5:00 PM</p>
+                    </li>
+                    <li>
+                        <strong>Final Exam</strong>
+                        <p>Next Monday</p>
+                    </li>
+                    <li>
+                        <strong>Group Meeting</strong>
+                        <p>Wednesday at 3:30 PM</p>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </aside>
 
-        <div class="input-group">
-            <label for="idea-input">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                The Big Idea
-            </label>
-            <input type="text" id="idea-input" placeholder="What are you thinking?">
-        </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <section id="study-timer" class="timer-section">
+                <div class="timer-card">
+                    <h1>🍅 Pomodoro Timer</h1>
+                    <p class="timer-subtitle">Focus for 25 minutes, then take a break!</p>
+                    
+                    <!-- Timer Display -->
+                    <div class="timer-display">
+                        <div class="time" id="timerDisplay">25:00</div>
+                        <div class="progress-ring">
+                            <svg class="progress-svg" width="200" height="200" viewBox="0 0 200 200">
+                                <circle class="progress-bg" cx="100" cy="100" r="90"></circle>
+                                <circle class="progress-bar" id="progressCircle" cx="100" cy="100" r="90"></circle>
+                            </svg>
+                        </div>
+                    </div>
 
-        <div class="button-row">
-            <button id="add-idea-btn" class="btn-add">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                Add Idea to Board
-            </button>
-            <button id="reset-btn" class="btn-clear">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                Clear
-            </button>
-        </div>
+                    <!-- Control Buttons -->
+                    <div class="button-group">
+                        <button id="startBtn" class="btn btn-primary">
+                            ▶️ Start
+                        </button>
+                        <button id="pauseBtn" class="btn btn-secondary" disabled>
+                            ⏸️ Pause
+                        </button>
+                        <button id="resetBtn" class="btn btn-danger">
+                            🔄 Reset
+                        </button>
+                    </div>
 
-        <ul id="idea-list">
-            <div class="empty-state">No ideas collected yet. Start the brainstorm!</div>
-        </ul>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Group Idea Board. Designed for collaboration.</p>
-    </footer>
-
-    <script>
-        const nameSelect = document.getElementById('name-select');
-        const newNameInput = document.getElementById('new-name-input');
-        const addNameBtn = document.getElementById('add-name-btn');
-        const removeNameBtn = document.getElementById('remove-name-btn');
-        const ideaInput = document.getElementById('idea-input');
-        const addIdeaBtn = document.getElementById('add-idea-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const ideaList = document.getElementById('idea-list');
-        const counterBadge = document.getElementById('idea-counter');
-
-        let totalIdeas = 0;
-
-        function updateCounter() {
-            counterBadge.textContent = `${totalIdeas} ${totalIdeas === 1 ? 'Idea' : 'Ideas'}`;
-        }
-
-        // Feature: Add New Member
-        addNameBtn.addEventListener('click', () => {
-            const newName = newNameInput.value.trim();
-            
-            if (!newName) {
-                alert('Please enter a name to register.');
-                return;
-            }
-
-            const existingOptions = Array.from(nameSelect.options).map(opt => opt.value.toLowerCase());
-            if (existingOptions.includes(newName.toLowerCase())) {
-                alert('This member is already registered!');
-                return;
-            }
-
-            const option = document.createElement('option');
-            option.value = newName;
-            option.textContent = newName;
-            nameSelect.appendChild(option);
-            
-            nameSelect.value = newName;
-            newNameInput.value = '';
-        });
-
-        newNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addNameBtn.click();
-        });
-
-        // Feature: Remove Member
-        removeNameBtn.addEventListener('click', () => {
-            const selectedValue = nameSelect.value;
-            
-            if (!selectedValue) {
-                alert('Please select a member to remove.');
-                return;
-            }
-
-            if (confirm(`Are you sure you want to remove "${selectedValue}" from the team?`)) {
-                const selectedIndex = nameSelect.selectedIndex;
-                nameSelect.remove(selectedIndex);
-                nameSelect.value = ""; // Reset to placeholder
-            }
-        });
-
-        // Feature: Add Idea
-        addIdeaBtn.addEventListener('click', () => {
-            const name = nameSelect.value;
-            const idea = ideaInput.value.trim();
-
-            if (!name) {
-                alert('Who are you? Please select a name!');
-                return;
-            }
-
-            if (!idea) {
-                alert('An idea needs some words! Please enter something.');
-                return;
-            }
-
-            const emptyState = ideaList.querySelector('.empty-state');
-            if (emptyState) emptyState.remove();
-
-            totalIdeas++;
-            updateCounter();
-
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <div class="idea-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <!-- Status Message -->
+                    <div id="statusMessage" class="status-message"></div>
                 </div>
-                <div class="idea-content">
-                    ${idea}
-                    <span class="suggested-by">suggested by <strong>${name}</strong></span>
+            </section>
+
+            <!-- GPA Calculator Section (Placeholder) -->
+            <section id="gpa-calculator" class="calculator-section" style="display: none;">
+                <div class="calculator-card">
+                    <h1>📊 GPA Calculator</h1>
+                    <p class="subtitle">Coming soon! Use the Study Timer for now.</p>
                 </div>
-            `;
-            
-            ideaList.prepend(listItem);
-            ideaInput.value = '';
-            ideaInput.focus();
-        });
+            </section>
 
-        resetBtn.addEventListener('click', () => {
-            nameSelect.value = '';
-            ideaInput.value = '';
-            newNameInput.value = '';
-            ideaInput.focus();
-        });
+            <!-- Group Idea Board Section -->
+            <section id="idea-board" class="idea-board-section" style="display: none;">
+                <div class="idea-board-card">
+                    <div class="idea-counter-badge" id="idea-counter">0 Ideas</div>
+                    <h1>💡 Group Idea Board</h1>
+                    <p class="idea-subtitle">Collaborate and build the future together</p>
 
-        ideaInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addIdeaBtn.click();
-        });
-    </script>
+                    <!-- Add New Member Section -->
+                    <div class="idea-input-group">
+                        <label for="new-name-input">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="16" x2="22" y1="11" y2="11"/></svg>
+                            Register Member
+                        </label>
+                        <div class="inline-group">
+                            <input type="text" id="new-name-input" placeholder="Type name to add..." class="input-field">
+                            <button id="add-name-btn" class="btn btn-success">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr class="idea-divider">
+
+                    <!-- Select/Remove Member Section -->
+                    <div class="idea-input-group">
+                        <label for="name-select">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Select or Remove Member
+                        </label>
+                        <div class="inline-group">
+                            <select id="name-select" class="input-field">
+                                <option value="" disabled selected>Select your name...</option>
+                                <option value="Suthakaran Sabhisha">Sabisa</option>
+                                <option value="Sasandi Jayawardena">Sasandi</option>
+                                <option value="Ketheeswaran Janani">Janani</option>
+                                <option value="Nadina Amarasinghe">Nadina</option>
+                                <option value="Chamindu Garusingha">Chamindu</option>
+                                <option value="Pramuditha Maduwantha">Pramuditha</option>
+                                <option value="Savinda Rajapathirana">Savinda</option>
+                                <option value="Senith Deelaka">Senith</option>
+                                <option value="Chamalkith Dewmina">Chamalkith</option>
+                                <option value="Dulan Senanayake">Dulan</option>
+                            </select>
+                            <button id="remove-name-btn" class="btn btn-danger" title="Remove selected member">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="14" y1="11" y2="15"/><line x1="14" x2="10" y1="11" y2="15"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- The Big Idea Section -->
+                    <div class="idea-input-group">
+                        <label for="idea-input">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                            The Big Idea
+                        </label>
+                        <input type="text" id="idea-input" placeholder="What are you thinking?" class="full-width">
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="idea-button-group">
+                        <button id="add-idea-btn" class="btn btn-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            Add Idea to Board
+                        </button>
+                        <button id="idea-reset-btn" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Clear
+                        </button>
+                    </div>
+
+                    <!-- Ideas List -->
+                    <ul id="idea-list" class="idea-list">
+                        <div class="empty-state">No ideas collected yet. Start the brainstorm!</div>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
-<!---- prompt: 
-
-
-Create a simple interactive web interface using HTML, CSS, and JavaScript.
-
-Requirements:
-- The page title should be "Group Idea Board".
-- At the top, display a blue header with the title centered.
-
-Interface components:
-1. A dropdown menu labeled "Select your name..." with sample names (Nimal, Sara, Alex).
-2. A text input field with placeholder text "Enter your idea here...".
-3. A button labeled "Add Idea".
-
-Functionality:
-- When the user selects a name and enters an idea, clicking "Add Idea" should add the idea to a list below.
-- Each idea should display like:
-  • Idea text – suggested by [selected name]
-
-Example list items:
-- Build a study planner – suggested by Nimal
-- Start a podcast – suggested by Sara
-- Organize a coding workshop – suggested by Alex
-
-Design:
-- Center the interface in the page.
-- Use a card-style container with a light background.
-- Rounded corners and subtle shadow.
-- Use a blue theme for the header and button.
-- The idea list should appear as bullet points.
-
-Make the layout responsive and clean.
-
-
-
-Enhance the interface by adding:
-● Better layout and spacing
-● Colors or styling
-● A clear list layout for ideas
-● A visually appealing button design
-The goal is to make the interface look clean and readable
-
-
-
-Enhance the interface further by adding at least two additional elements.
-Examples include:
-● A header section
-● A footer
-● A logo or icon
-● A background design
-● A section showing the total number of ideas
-● A clear button to reset the input field etc…
-
-add feature to add name too
-add also add funtion to remove names
---!>
 
 
 
