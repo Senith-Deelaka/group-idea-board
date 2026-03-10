@@ -3,29 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Idea Board</title>
+    <title>UCSC Student Dashboard</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            /* UCSC Branding Colors */
+            --primary: #800000; /* Maroon */
+            --primary-hover: #600000;
+            --secondary: #FFD700; /* Gold */
+            --secondary-hover: #e6c200;
+            --accent: var(--secondary);
+            --ucsc-maroon: var(--primary);
+            --ucsc-gold-glow: rgba(255, 215, 0, 0.4);
+            
             --success: #10b981;
             --success-hover: #059669;
             --danger: #ef4444;
             --danger-hover: #dc2626;
-            --secondary: #64748b;
-            --secondary-hover: #475569;
             --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
             --card-bg: #ffffff;
+            --navbar-bg: var(--ucsc-maroon);
+            --sidebar-bg: #ffffff;
             --text-main: #0f172a;
+            --text-on-dark: #ffffff;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --radius: 16px;
+            --navbar-height: 72px;
+            --sidebar-width: 260px;
+            --transition-speed: 0.3s;
+        }
+
+        body.dark-mode {
+            --bg-gradient: radial-gradient(circle at top left, #121212, #1a0508);
+            --card-bg: #1e1e1e;
+            --navbar-bg: #000000;
+            --sidebar-bg: #1f1f1f;
+            --text-main: #e0e0e0;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Fade-In Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-fade-in {
+                animation: none;
+                opacity: 1;
+            }
         }
 
         * {
             box-sizing: border-box;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
         }
 
         body {
@@ -34,32 +80,112 @@
             padding: 0;
             background: var(--bg-gradient);
             color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        nav {
+            height: var(--navbar-height);
+            background: var(--navbar-bg);
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .ucsc-logo {
+            height: 45px;
+            width: auto;
+            border-radius: 6px;
+            transition: transform 0.3s ease;
+        }
+
+        .ucsc-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 6px;
+            opacity: 0.8;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn.active {
+            opacity: 1;
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* Theme Toggle Switch */
+        .theme-switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .theme-switch:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         header {
             width: 100%;
-            background: var(--primary);
+            background: var(--ucsc-maroon);
             color: white;
-            padding: 2.5rem 1rem;
+            padding: 2rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .header-icon {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.75rem;
-            border-radius: 50%;
-            margin-bottom: 0.5rem;
+            border-bottom: 4px solid var(--accent);
         }
 
         header h1 {
@@ -67,12 +193,14 @@
             font-size: 2.5rem;
             font-weight: 800;
             letter-spacing: -0.05em;
+            color: var(--secondary);
         }
 
         header p {
             margin: 0;
             opacity: 0.9;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            max-width: 600px;
         }
 
         /* Layout Wrapper */
@@ -80,110 +208,7 @@
             display: flex;
             gap: 2rem;
             width: 95%;
-            max-width: 1200px;
-            margin-bottom: 3rem;
-            align-items: flex-start;
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            flex: 0 0 320px;
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            position: sticky;
-            top: 2rem;
-        }
-
-        .sidebar h2 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.75rem;
-        }
-
-        .event-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .event-item {
-            background: #f8fafc;
-            padding: 1.25rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .event-item:hover {
-            transform: scale(1.03) translateY(-4px);
-            background: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1);
-        }
-
-        .event-date {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .event-title {
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.25rem;
-            color: var(--text-main);
-        }
-
-        .event-desc {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .btn-join {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-
-        .event-item:hover .btn-join {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn-join:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Main Container */
-        .container {
-            flex: 1;
+            max-width: 800px;
             background-color: var(--card-bg);
             padding: 2.5rem;
             border-radius: var(--radius);
@@ -191,7 +216,25 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            margin: 0 auto 4rem auto;
             position: relative;
+            border: 1px solid var(--border);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .counter-badge {
@@ -199,12 +242,13 @@
             top: -12px;
             right: 2rem;
             background: var(--primary);
-            color: white;
+            color: var(--secondary);
             padding: 0.25rem 1rem;
             border-radius: 20px;
             font-size: 0.875rem;
             font-weight: 700;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 6px rgba(128, 0, 0, 0.3);
+            z-index: 10;
         }
 
         .input-group {
@@ -215,18 +259,17 @@
 
         .inline-group {
             display: flex;
-            gap: 0.75rem;
-            align-items: flex-end;
+            gap: 0.5rem;
         }
 
-        .inline-group > .input-field {
+        .input-field {
             flex: 1;
         }
 
         label {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             display: flex;
@@ -234,20 +277,29 @@
             gap: 0.4rem;
         }
 
-        select, input[type="text"] {
+        body.dark-mode label {
+            color: var(--secondary);
+        }
+
+        select, input[type="text"], input[type="number"] {
             padding: 0.875rem 1.25rem;
             border: 2px solid var(--border);
             border-radius: 10px;
             font-size: 1rem;
             outline: none;
-            background-color: #fcfdfe;
+            background-color: var(--card-bg);
+            color: var(--text-main);
             width: 100%;
         }
 
-        select:focus, input[type="text"]:focus {
+        select:focus, input[type="text"]:focus, input[type="number"]:focus {
             border-color: var(--primary);
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
+        }
+
+        body.dark-mode select:focus, body.dark-mode input[type="text"]:focus, body.dark-mode input[type="number"]:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
         }
 
         .button-row {
@@ -268,33 +320,43 @@
             justify-content: center;
             align-items: center;
             gap: 0.6rem;
+            transition: all 0.2s;
         }
 
-        .btn-add {
+        .btn-primary {
             background-color: var(--primary);
             color: white;
         }
 
-        .btn-add:hover {
+        .btn-primary:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
         }
 
         .btn-success {
             background-color: var(--success);
             color: white;
-            padding: 0.875rem 1.5rem;
         }
 
         .btn-success:hover {
             background-color: var(--success-hover);
+            transform: scale(1.02);
         }
 
         .btn-danger {
             background-color: #fee2e2;
             color: var(--danger);
-            padding: 0.875rem 1.25rem;
         }
 
         .btn-danger:hover {
@@ -304,64 +366,61 @@
 
         .btn-clear {
             background-color: #f1f5f9;
-            color: var(--secondary);
+            color: var(--text-muted);
         }
 
         .btn-clear:hover {
             background-color: #e2e8f0;
-            color: var(--secondary-hover);
         }
 
-        .btn-delete-idea {
-            background: transparent;
-            color: var(--danger);
-            padding: 0.5rem;
-            border-radius: 8px;
-            opacity: 0.5;
+        /* GPA Calculator Styles */
+        .gpa-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr auto;
+            gap: 1rem;
+            align-items: flex-end;
         }
 
-        .btn-delete-idea:hover {
-            opacity: 1;
-            background: #fee2e2;
+        .gpa-result-card {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 2rem;
         }
 
-        button:active {
-            transform: translateY(0);
+        .gpa-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary);
+            display: block;
         }
 
-        #idea-list {
+        #idea-list, #course-list {
             margin-top: 1rem;
             padding: 0;
             list-style: none;
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1rem;
         }
 
-        .empty-state {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 3rem 1rem;
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            font-style: italic;
-        }
-
-        #idea-list li {
-            background: #ffffff;
+        .list-item {
+            background: var(--card-bg);
             padding: 1.25rem;
             border-radius: 12px;
             border: 1px solid var(--border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            border-left: 4px solid var(--accent);
             display: flex;
             align-items: center;
             gap: 1rem;
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .idea-icon {
-            background: #eff6ff;
+        .item-icon {
+            background: rgba(128, 0, 0, 0.05);
             color: var(--primary);
             width: 40px; height: 40px;
             border-radius: 10px;
@@ -371,12 +430,12 @@
             flex-shrink: 0;
         }
 
-        .idea-content {
+        .item-content {
             flex: 1;
             font-weight: 500;
         }
 
-        .suggested-by {
+        .item-subtitle {
             display: block;
             font-size: 0.85rem;
             color: var(--text-muted);
@@ -386,13 +445,13 @@
 
         footer {
             margin-top: auto;
-            padding: 2rem;
+            padding: 3rem;
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.875rem;
+            color: white;
+            font-size: 0.9rem;
             width: 100%;
-            border-top: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--ucsc-maroon);
+            border-top: 4px solid var(--accent);
         }
 
         @keyframes popIn {
@@ -400,45 +459,59 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @media (max-width: 900px) {
-            .content-wrapper { flex-direction: column; align-items: center; }
-            .sidebar { order: -1; width: 100%; max-width: 700px; position: static; }
-            .container { width: 100%; max-width: 700px; }
+        @media (max-width: 768px) {
+            .gpa-form {
+                grid-template-columns: 1fr 1fr;
+            }
+            .gpa-form .btn-primary {
+                grid-column: span 2;
+            }
+            .button-row { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
             .container { padding: 1.5rem; }
             header h1 { font-size: 2rem; }
-            .button-row { grid-template-columns: 1fr; }
-            .inline-group { flex-direction: column; align-items: stretch; }
+            .nav-tabs { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.7 1.5-1.7 1.5-3 0-2.2-1.8-4-4-4s-4 1.8-4 4c0 1.3.5 2.3 1.5 3 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+    <nav>
+        <div class="nav-logo">
+            <img src="images.png" alt="UCSC Logo" class="ucsc-logo">
+            <span>UCSC Dashboard</span>
         </div>
-        <h1>Group Idea Board</h1>
-        <p>Collaborate and build the future together</p>
+        <div class="nav-actions">
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="switchTab('idea-board')">Idea Board</button>
+                <button class="tab-btn" onclick="switchTab('gpa-calc')">GPA Calculator</button>
+            </div>
+            <button id="theme-toggle" class="theme-switch" title="Toggle Theme">
+                <span id="theme-icon">☀️</span>
+            </button>
+        </div>
+    </nav>
+
+    <header>
+        <h1 id="header-title">Group Idea Board</h1>
+        <p id="header-desc">Collaborate and build the future together</p>
     </header>
 
-    <div class="content-wrapper">
-        <main class="container">
+    <main class="container">
+        
+        <!-- Tab 1: Idea Board -->
+        <section id="idea-board" class="tab-content active">
             <div id="idea-counter" class="counter-badge">0 Ideas</div>
 
-            <!-- Add New Name Section -->
             <div class="input-group">
-                <label for="new-name-input">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="16" x2="22" y1="11" y2="11"/></svg>
-                    Register Member
-                </label>
+                <label for="new-name-input">Register Member</label>
                 <div class="inline-group">
                     <div class="input-field">
                         <input type="text" id="new-name-input" placeholder="Type name to add...">
                     </div>
-                    <button id="add-name-btn" class="btn-success" title="Add new member">
+                    <button id="add-name-btn" class="btn-success">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                     </button>
                 </div>
@@ -446,88 +519,116 @@
 
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
 
-            <!-- Select/Remove Member Section -->
             <div class="input-group">
-                <label for="name-select">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Select or Remove Member
-                </label>
+                <label for="name-select">Select Member</label>
                 <div class="inline-group">
                     <div class="input-field">
                         <select id="name-select">
                             <option value="" disabled selected>Select your name...</option>
+                            <option value="Suthakaran Sabhisha">Sabisa</option>
+                            <option value="Sasandi Jayawardena">Sasandi</option>
+                            <option value="Ketheeswaran Janani">Janani</option>
+                            <option value="Nadina Amarasinghe">Nadina</option>
                         </select>
                     </div>
                     <button id="remove-name-btn" class="btn-danger" title="Remove selected member">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="14" y1="11" y2="15"/><line x1="14" x2="10" y1="11" y2="15"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                     </button>
                 </div>
             </div>
 
             <div class="input-group">
-                <label for="idea-input">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                    The Big Idea
-                </label>
+                <label for="idea-input">The Big Idea</label>
                 <input type="text" id="idea-input" placeholder="What are you thinking?">
             </div>
 
             <div class="button-row">
-                <button id="add-idea-btn" class="btn-add">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    Add Idea to Board
-                </button>
-                <button id="reset-btn" class="btn-clear">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                    Clear Inputs
-                </button>
+                <button id="add-idea-btn" class="btn-primary">Add Idea to Board</button>
+                <button id="reset-btn" class="btn-clear">Clear</button>
             </div>
 
             <ul id="idea-list">
-                <div class="empty-state">No ideas collected yet. Start the brainstorm!</div>
+                <div class="empty-state" style="text-align: center; color: var(--text-muted); padding: 2rem;">No ideas yet.</div>
             </ul>
-        </main>
+        </section>
 
-        <!-- Sidebar: Upcoming Events -->
-        <aside class="sidebar">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Upcoming Events
-            </h2>
-            <ul class="event-list">
-                <li class="event-item" onclick="joinEvent('Annual Hackathon')">
-                    <span class="event-date">March 15, 2026</span>
-                    <span class="event-title">Annual Hackathon</span>
-                    <span class="event-desc">48-hour coding marathon for all teams.</span>
-                    <button class="btn-join">Join Now</button>
-                </li>
-                <li class="event-item" onclick="joinEvent('Idea Pitch Night')">
-                    <span class="event-date">March 22, 2026</span>
-                    <span class="event-title">Idea Pitch Night</span>
-                    <span class="event-desc">Present your best ideas to the group!</span>
-                    <button class="btn-join">Join Now</button>
-                </li>
-                <li class="event-item" onclick="joinEvent('UX/UI Workshop')">
-                    <span class="event-date">April 05, 2026</span>
-                    <span class="event-title">UX/UI Workshop</span>
-                    <span class="event-desc">Learn about the latest design trends.</span>
-                    <button class="btn-join">Join Now</button>
-                </li>
-                <li class="event-item" onclick="joinEvent('Spring Tech Mixer')">
-                    <span class="event-date">April 12, 2026</span>
-                    <span class="event-title">Spring Tech Mixer</span>
-                    <span class="event-desc">Networking and drinks with the local community.</span>
-                    <button class="btn-join">Join Now</button>
-                </li>
-            </ul>
-        </aside>
-    </div>
+        <!-- Tab 2: GPA Calculator -->
+        <section id="gpa-calc" class="tab-content">
+            <div class="gpa-form">
+                <div class="input-group">
+                    <label>Course Name</label>
+                    <input type="text" id="course-name" placeholder="Optional">
+                </div>
+                <div class="input-group">
+                    <label>Credits</label>
+                    <input type="number" id="course-credits" placeholder="e.g. 3" min="1">
+                </div>
+                <div class="input-group">
+                    <label>Grade</label>
+                    <select id="course-grade">
+                        <option value="4.0">A</option>
+                        <option value="3.7">A-</option>
+                        <option value="3.3">B+</option>
+                        <option value="3.0">B</option>
+                        <option value="2.7">B-</option>
+                        <option value="2.3">C+</option>
+                        <option value="2.0">C</option>
+                        <option value="1.7">C-</option>
+                        <option value="1.3">D+</option>
+                        <option value="1.0">D</option>
+                        <option value="0.0">E</option>
+                    </select>
+                </div>
+                <button id="add-course-btn" class="btn-primary">Add</button>
+            </div>
+
+            <div id="course-list-container">
+                <ul id="course-list">
+                    <!-- Courses will appear here -->
+                </ul>
+            </div>
+
+            <div class="button-row" style="grid-template-columns: 1fr;">
+                <button id="calculate-gpa-btn" class="btn-secondary" style="font-size: 1.2rem; padding: 1.25rem;">
+                    Calculate Final GPA
+                </button>
+            </div>
+
+            <div id="gpa-result-display" class="gpa-result-card" style="display: none;">
+                <h3>Your Current GPA</h3>
+                <span class="gpa-value" id="final-gpa">0.00</span>
+                <p id="gpa-message">Keep up the great work!</p>
+            </div>
+        </section>
+
+    </main>
 
     <footer>
-        <p>&copy; 2026 Group Idea Board. Designed for collaboration.</p>
+        <p>&copy; 2026 UCSC Student Dashboard. Academic Excellence through Innovation.</p>
     </footer>
 
     <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            const title = document.getElementById('header-title');
+            const desc = document.getElementById('header-desc');
+
+            if (tabId === 'idea-board') {
+                title.textContent = 'Group Idea Board';
+                desc.textContent = 'Collaborate and build the future together';
+            } else {
+                title.textContent = 'GPA Calculator';
+                desc.textContent = 'Track your academic progress with precision';
+            }
+        }
+
+        // --- Idea Board Logic ---
         const nameSelect = document.getElementById('name-select');
         const newNameInput = document.getElementById('new-name-input');
         const addNameBtn = document.getElementById('add-name-btn');
@@ -537,6 +638,8 @@
         const resetBtn = document.getElementById('reset-btn');
         const ideaList = document.getElementById('idea-list');
         const counterBadge = document.getElementById('idea-counter');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
 
         let members = JSON.parse(localStorage.getItem('boardMembers')) || [
             'Suthakaran Sabhisha', 'Sasandi Jayawardena', 'Ketheeswaran Janani', 
@@ -594,6 +697,31 @@
             updateCounter();
         }
 
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '🌙';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeIcon.textContent = '☀️';
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (systemPrefersDark) {
+            setTheme('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.contains('dark-mode');
+            setTheme(isDark ? 'light' : 'dark');
+        });
+
         function updateCounter() {
             counterBadge.textContent = `${ideas.length} ${ideas.length === 1 ? 'Idea' : 'Ideas'}`;
         }
@@ -616,75 +744,125 @@
             alert(`Awesome! You've joined the ${eventName}. See you there!`);
         }
 
-        // Feature: Add New Member
         addNameBtn.addEventListener('click', () => {
             const newName = newNameInput.value.trim();
-            if (!newName) {
-                alert('Please enter a name to register.');
-                return;
-            }
-            if (members.some(m => m.toLowerCase() === newName.toLowerCase())) {
-                alert('This member is already registered!');
-                return;
-            }
-            members.push(newName);
-            saveToStorage();
-            renderMembers();
+            if (!newName) return;
+            const option = document.createElement('option');
+            option.value = newName;
+            option.textContent = newName;
+            nameSelect.appendChild(option);
             nameSelect.value = newName;
             newNameInput.value = '';
         });
 
-        newNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addNameBtn.click();
-        });
-
-        // Feature: Remove Member
         removeNameBtn.addEventListener('click', () => {
-            const selectedValue = nameSelect.value;
-            if (!selectedValue) {
-                alert('Please select a member to remove.');
-                return;
-            }
-            if (confirm(`Are you sure you want to remove "${selectedValue}" from the team?`)) {
-                members = members.filter(m => m !== selectedValue);
-                saveToStorage();
-                renderMembers();
+            if (nameSelect.value) {
+                nameSelect.remove(nameSelect.selectedIndex);
+                nameSelect.value = "";
             }
         });
 
-        // Feature: Add Idea
         addIdeaBtn.addEventListener('click', () => {
             const name = nameSelect.value;
-            const text = ideaInput.value.trim();
+            const idea = ideaInput.value.trim();
+            if (!name || !idea) return;
 
-            if (!name) {
-                alert('Who are you? Please select a name!');
-                return;
-            }
-            if (!text) {
-                alert('An idea needs some words! Please enter something.');
-                return;
-            }
+            if (ideaList.querySelector('.empty-state')) ideaList.innerHTML = '';
 
-            ideas.push({ name, text });
-            saveToStorage();
-            renderIdeas();
+            totalIdeas++;
+            updateCounter();
+
+            const li = document.createElement('li');
+            li.className = 'list-item';
+            li.innerHTML = `
+                <div class="item-icon">💡</div>
+                <div class="item-content">
+                    ${idea}
+                    <span class="item-subtitle">suggested by <strong>${name}</strong></span>
+                </div>
+            `;
+            ideaList.prepend(li);
             ideaInput.value = '';
-            ideaInput.focus();
         });
 
         resetBtn.addEventListener('click', () => {
-            nameSelect.value = '';
             ideaInput.value = '';
-            newNameInput.value = '';
             ideaInput.focus();
         });
 
-        ideaInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addIdeaBtn.click();
+        // --- GPA Calculator Logic ---
+        const courseNameInput = document.getElementById('course-name');
+        const courseCreditsInput = document.getElementById('course-credits');
+        const courseGradeSelect = document.getElementById('course-grade');
+        const addCourseBtn = document.getElementById('add-course-btn');
+        const courseList = document.getElementById('course-list');
+        const calculateGpaBtn = document.getElementById('calculate-gpa-btn');
+        const gpaResultDisplay = document.getElementById('gpa-result-display');
+        const finalGpaText = document.getElementById('final-gpa');
+
+        let courses = [];
+
+        addCourseBtn.addEventListener('click', () => {
+            const name = courseNameInput.value.trim() || 'Unnamed Course';
+            const credits = parseFloat(courseCreditsInput.value);
+            const gradePoint = parseFloat(courseGradeSelect.value);
+            const gradeText = courseGradeSelect.options[courseGradeSelect.selectedIndex].text;
+
+            if (isNaN(credits) || credits <= 0) {
+                alert('Please enter valid credits.');
+                return;
+            }
+
+            const course = { id: Date.now(), name, credits, gradePoint, gradeText };
+            courses.push(course);
+            renderCourses();
+            
+            courseNameInput.value = '';
+            courseCreditsInput.value = '';
         });
 
-        init();
+        function renderCourses() {
+            courseList.innerHTML = '';
+            courses.forEach(course => {
+                const li = document.createElement('li');
+                li.className = 'list-item';
+                li.innerHTML = `
+                    <div class="item-icon">📚</div>
+                    <div class="item-content">
+                        <strong>${course.name}</strong>
+                        <span class="item-subtitle">${course.credits} Credits • Grade: ${course.gradeText}</span>
+                    </div>
+                    <button class="btn-danger" onclick="removeCourse(${course.id})" style="padding: 0.5rem;">×</button>
+                `;
+                courseList.appendChild(li);
+            });
+        }
+
+        window.removeCourse = (id) => {
+            courses = courses.filter(c => c.id !== id);
+            renderCourses();
+            gpaResultDisplay.style.display = 'none';
+        };
+
+        calculateGpaBtn.addEventListener('click', () => {
+            if (courses.length === 0) {
+                alert('Add some courses first!');
+                return;
+            }
+
+            let totalQualityPoints = 0;
+            let totalCredits = 0;
+
+            courses.forEach(c => {
+                totalQualityPoints += (c.gradePoint * c.credits);
+                totalCredits += c.credits;
+            });
+
+            const gpa = totalQualityPoints / totalCredits;
+            finalGpaText.textContent = gpa.toFixed(2);
+            gpaResultDisplay.style.display = 'block';
+            gpaResultDisplay.scrollIntoView({ behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
