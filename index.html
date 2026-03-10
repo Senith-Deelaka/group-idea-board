@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Dashboard</title>
+    <style>
+        /* General Styles */
     <title>UCSC Student Dashboard</title>
     <style>
         :root {
@@ -70,7 +73,23 @@
         }
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #6B1C23 0%, #8B0000 100%);
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
         }
 
@@ -182,28 +201,76 @@
             text-align: center;
             margin-bottom: 2rem;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            padding-left: 30px;
+            flex: 0 0 auto;
             gap: 0.5rem;
             border-bottom: 4px solid var(--accent);
         }
 
-        header h1 {
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
             margin: 0;
+            padding-right: 30px;
             font-size: 2.5rem;
             font-weight: 800;
             letter-spacing: -0.05em;
             color: var(--secondary);
         }
 
-        header p {
+        .navbar-menu li {
             margin: 0;
             opacity: 0.9;
             font-size: 1.1rem;
             max-width: 600px;
         }
 
+        .nav-link {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 25px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom-color: #FFD700;
+        }
+
+        .nav-link.active {
+            background-color: #D4AF37;
+            color: #6B1C23;
+            border-bottom-color: #B8860B;
+        }
+
+        /* Main Container */
         .container {
+            display: flex;
+            height: calc(100vh - 70px);
+            background: #f5f5f5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding: 30px 20px;
             width: 95%;
             max-width: 800px;
             background-color: var(--card-bg);
@@ -248,21 +315,81 @@
             z-index: 10;
         }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .sidebar-section h3 {
+            color: #6B1C23;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 10px;
         }
 
-        .inline-group {
+        .events-list {
+            list-style: none;
+        }
+
+        .event-item {
             display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #D4AF37;
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            background: #f0e6d2;
+            transform: translateX(5px);
+        }
+
+        .event-date {
+            background: #D4AF37;
+            color: #6B1C23;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 12px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .event-title {
+            color: #6B1C23;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
             gap: 0.5rem;
         }
 
         .input-field {
             flex: 1;
+            padding: 40px;
+            overflow-y: auto;
         }
 
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section h2 {
+            color: #6B1C23;
+            font-size: 32px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #D4AF37;
+            padding-bottom: 15px;
+        }
+
+        .content-section.hidden {
+            display: none;
         label {
             font-weight: 700;
             font-size: 0.75rem;
@@ -299,23 +426,41 @@
             box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
         }
 
-        .button-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1rem;
-            margin-top: 0.5rem;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        button {
-            border: none;
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
+        /* Timer Styles */
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .timer-display {
             display: flex;
             justify-content: center;
+            width: 100%;
+        }
+
+        .timer-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
+            display: flex;
             align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            font-weight: bold;
             gap: 0.6rem;
             transition: all 0.2s;
         }
@@ -323,8 +468,44 @@
         .btn-primary {
             background-color: var(--primary);
             color: white;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 5px;
         }
 
+        /* Timer Controls */
+        .timer-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            color: #6B1C23;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
         .btn-primary:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
@@ -356,11 +537,63 @@
             color: var(--danger);
         }
 
-        .btn-danger:hover {
-            background-color: var(--danger);
+        .btn-primary.paused {
+            background: linear-gradient(135deg, #A82630 0%, #8B0000 100%);
             color: white;
         }
 
+        .btn-secondary {
+            background: #A82630;
+            color: white;
+            box-shadow: 0 4px 15px rgba(168, 38, 48, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: #8B0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 38, 48, 0.4);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Timer Info */
+        .timer-info {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .timer-info p {
+            margin: 10px 0;
+        }
+
+        .timer-info strong {
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+        /* GPA Calculator Placeholder */
+        .gpa-container {
+            padding: 40px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         .btn-clear {
             background-color: #f1f5f9;
             color: var(--text-muted);
@@ -452,11 +685,54 @@
             border-top: 4px solid var(--accent);
         }
 
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.9) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
         }
 
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8860B;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                max-height: 300px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .content-section h2 {
+                font-size: 24px;
+            }
+
+            .timer-circle {
+                width: 200px;
+                height: 200px;
+                font-size: 60px;
+            }
+
+            .timer-controls {
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 14px;
         @media (max-width: 768px) {
             .gpa-form {
                 grid-template-columns: 1fr 1fr;
@@ -686,8 +962,31 @@
                 nameSelect.remove(nameSelect.selectedIndex);
                 nameSelect.value = "";
             }
-        });
 
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 0;
+            }
+
+            .navbar-brand {
+                padding: 15px;
+                font-size: 24px;
+            }
+
+            .navbar-menu {
+                width: 100%;
+                flex-direction: column;
+                padding: 0;
+                gap: 0;
+            }
+
+            .nav-link {
+                padding: 15px;
+                text-align: center;
+                border-bottom: 1px solid #6B1C23;
+            }
+        }
         addIdeaBtn.addEventListener('click', () => {
             const name = nameSelect.value;
             const idea = ideaInput.value.trim();
@@ -695,9 +994,320 @@
 
             if (ideaList.querySelector('.empty-state')) ideaList.innerHTML = '';
 
-            totalIdeas++;
-            updateCounter();
+        @keyframes popIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
 
+        @keyframes popOut {
+            from {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">📚 Study Dashboard</div>
+        <ul class="navbar-menu">
+            <li><a href="#gpa-calculator" class="nav-link">GPA Calculator</a></li>
+            <li><a href="#study-timer" class="nav-link active">Study Timer</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>📅 Upcoming Events</h3>
+                <ul class="events-list">
+                    <li class="event-item">
+                        <span class="event-date">Mar 15</span>
+                        <span class="event-title">Midterm Exam</span>
+                    </li>
+                    <li class="event-item">
+                        <span class="event-date">Mar 20</span>
+                        <span class="event-title">Project Deadline</span>
+                    </li>
+                    <li class="event-item">
+                        <span class="event-date">Mar 25</span>
+                        <span class="event-title">Group Presentation</span>
+                    </li>
+                    <li class="event-item">
+                        <span class="event-date">Apr 01</span>
+                        <span class="event-title">Final Project Due</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Study Timer Section -->
+            <section id="study-timer" class="content-section">
+                <h2>🍅 Pomodoro Timer</h2>
+                <div class="timer-container">
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
+                        </div>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="start-btn" class="btn btn-primary">Start</button>
+                        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                    </div>
+                    <div class="timer-info">
+                        <p>Focus for 25 minutes, then take a 5-minute break!</p>
+                        <p id="session-counter">Sessions Completed: <strong>0</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GPA Calculator Section -->
+            <section id="gpa-calculator" class="content-section hidden">
+                <h2>📊 GPA Calculator</h2>
+                <div class="gpa-container">
+                    <p>GPA Calculator coming soon...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const timerMinutes = document.getElementById('timer-minutes');
+        const timerSeconds = document.getElementById('timer-seconds');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const sessionCounter = document.getElementById('session-counter');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        // Timer Variables
+        let timeRemaining = 25 * 60; // 25 minutes in seconds
+        const initialTime = 25 * 60;
+        let isRunning = false;
+        let timerInterval = null;
+        let sessionsCompleted = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeEventListeners();
+            updateTimerDisplay();
+        });
+
+        // Event Listeners
+        function initializeEventListeners() {
+            startBtn.addEventListener('click', toggleTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+        }
+
+        // Start/Pause Button
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            if (timeRemaining <= 0) {
+                resetTimer();
+                return;
+            }
+
+            isRunning = true;
+            startBtn.textContent = 'Pause';
+            startBtn.classList.add('paused');
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    completeSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            startBtn.textContent = 'Start';
+            startBtn.classList.remove('paused');
+        }
+
+        // Reset Button
+        function resetTimer() {
+            pauseTimer();
+            timeRemaining = initialTime;
+            updateTimerDisplay();
+            startBtn.textContent = 'Start';
+            startBtn.classList.remove('paused');
+        }
+
+        // Complete Session
+        function completeSession() {
+            pauseTimer();
+            sessionsCompleted++;
+            updateSessionCounter();
+            playNotification();
+            showCompletionAlert();
+            timeRemaining = initialTime;
+            updateTimerDisplay();
+        }
+
+        // Update Timer Display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            
+            timerMinutes.textContent = String(minutes).padStart(2, '0');
+            timerSeconds.textContent = String(seconds).padStart(2, '0');
+            
+            // Update document title
+            document.title = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} - Pomodoro Timer`;
+        }
+
+        // Update Session Counter
+        function updateSessionCounter() {
+            sessionCounter.innerHTML = `Sessions Completed: <strong>${sessionsCompleted}</strong>`;
+        }
+
+        // Play Bell Sound Notification
+        function playNotification() {
+            // Create an audio context and play a bell sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+            
+            // Create multiple oscillators for a bell-like sound
+            const notes = [
+                { freq: 1046.5, duration: 0.3, delay: 0 },      // C6
+                { freq: 1318.5, duration: 0.3, delay: 0.1 },    // E6
+                { freq: 1568.0, duration: 0.5, delay: 0.2 }     // G6
+            ];
+            
+            notes.forEach(note => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = note.freq;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, now + note.delay);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + note.delay + note.duration);
+                
+                oscillator.start(now + note.delay);
+                oscillator.stop(now + note.delay + note.duration);
+            });
+        }
+
+        // Show Completion Alert
+        function showCompletionAlert() {
+            // Create and show alert
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #D4AF37 0%, #A82630 100%);
+                color: white;
+                padding: 40px;
+                border-radius: 12px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                animation: popIn 0.3s ease;
+            `;
+            
+            alertDiv.innerHTML = `
+                <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
+                <div>Session Complete!</div>
+                <div style="font-size: 16px; margin-top: 15px; opacity: 0.9;">Take a 5-minute break</div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                alertDiv.style.animation = 'popOut 0.3s ease';
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 4000);
+        }
+
+        // Navigation Handler
+        function handleNavigation(e) {
+            e.preventDefault();
+            
+            // Get the target section
+            const targetId = e.target.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (!targetSection) return;
+
+            // Update active nav link
+            navLinks.forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+
+            // Show/hide sections
+            contentSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            targetSection.classList.remove('hidden');
+        }
+
+        // Browser Notification (if user allows)
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+
+        function sendBrowserNotification() {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Pomodoro Timer Complete!', {
+                    body: 'Great work! Take a 5-minute break.',
+                    icon: '🍅'
+                });
+            }
+        }
+
+        // Request notification permission on load
+        requestNotificationPermission();
+
+        // Show browser notification when session completes
+        const originalCompleteSession = completeSession;
+        completeSession = function() {
+            originalCompleteSession.call(this);
+            sendBrowserNotification();
+        };
+
+        // Volume indicator for bell sound testing
+        console.log('🍅 Pomodoro Timer Ready! Bell notification is enabled.');
             const li = document.createElement('li');
             li.className = 'list-item';
             li.innerHTML = `
